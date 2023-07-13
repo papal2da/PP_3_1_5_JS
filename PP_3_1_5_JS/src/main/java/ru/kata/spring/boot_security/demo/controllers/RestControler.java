@@ -42,7 +42,7 @@ public class RestControler {
         this.roleRepository = roleRepository;
         this.userDetailsServiceImpl = userDetailsServiceImpl;
     }
-    // хороший, отдаем в JSON DTO
+
     @GetMapping("/admin/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable("id") Long id) {
         return new ResponseEntity<>(convertToUserDto(userService.findOne(id)), HttpStatus.OK);
@@ -55,12 +55,6 @@ public class RestControler {
                 ? new ResponseEntity<>(dto, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-    }
-
-    @GetMapping("/new")
-    public String addUser(Model model) {
-        model.addAttribute("user", new User());
-        return "pages/newuser";
     }
 
     @PostMapping("/admin")
@@ -81,11 +75,6 @@ public class RestControler {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @GetMapping("/{id}/edit")
-    public String edit(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.findOne(id));
-        return "pages/edit";
-    }
 
     @PatchMapping("/admin/{id}")
     public ResponseEntity<UserDto> update(@PathVariable("id") Long id
@@ -105,8 +94,8 @@ public class RestControler {
         return new ResponseEntity(convertToUserDto(user), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
+    @DeleteMapping("/admin/{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") long id) {
         userService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
