@@ -14,15 +14,20 @@ public class User {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty
     @Column(name = "name", unique = true)
     private String name;
+    @NotEmpty
     @Column(name = "password")
     private String password;
+    @NotEmpty
+    @Email
     @Column(name = "email")
     private String email;
+    @NotEmpty
     @Column(name = "sex")
     private String sex;
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))

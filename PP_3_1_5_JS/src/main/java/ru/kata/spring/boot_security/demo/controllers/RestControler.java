@@ -51,20 +51,12 @@ public class RestControler {
     @GetMapping("/admin")
     public ResponseEntity<List<UserDto>> showAllUsers() {
         List<UserDto> dto = userService.findAll().stream().map(this::convertToUserDto).collect(Collectors.toList());
-        return dto != null
-                ? new ResponseEntity<>(dto, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
 
-    }
-
-    @GetMapping("/new")
-    public String addUser(Model model) {
-        model.addAttribute("user", new User());
-        return "pages/newuser";
     }
 
     @PostMapping("/admin")
-    public ResponseEntity<HttpStatus> create(@RequestBody @Valid UserDto userDto,
+    public ResponseEntity<HttpStatus> create(@Valid @RequestBody UserDto userDto,
                                              BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             StringBuilder errorMsg = new StringBuilder();
@@ -79,12 +71,6 @@ public class RestControler {
         userService.save(convertToUser(userDto));
         // отправляем http-ответ с пустым телом и статусом 200. СлучаЙ,когда мы не хотим отсылать обратно объект
         return ResponseEntity.ok(HttpStatus.OK);
-    }
-
-    @GetMapping("/{id}/edit")
-    public String edit(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.findOne(id));
-        return "pages/edit";
     }
 
     @PatchMapping("/admin/{id}")
@@ -105,7 +91,7 @@ public class RestControler {
         return new ResponseEntity(convertToUserDto(user), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         userService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
