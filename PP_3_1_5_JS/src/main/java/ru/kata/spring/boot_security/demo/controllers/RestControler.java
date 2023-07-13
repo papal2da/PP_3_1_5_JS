@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +13,6 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.services.UserDetailsServiceImpl;
 import ru.kata.spring.boot_security.demo.services.UserService;
-import ru.kata.spring.boot_security.demo.services.UserServiceImpl;
 import ru.kata.spring.boot_security.demo.util.UserErrorResponse;
 import ru.kata.spring.boot_security.demo.util.UserNotCreatedException;
 import ru.kata.spring.boot_security.demo.util.UserNotFoundException;
@@ -31,7 +29,7 @@ import java.util.stream.Collectors;
 public class RestControler {
 
     private final UserService userService;
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
     private final RoleRepository roleRepository;
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     @Autowired
@@ -74,7 +72,7 @@ public class RestControler {
     }
 
     @PatchMapping("/admin/{id}")
-    public ResponseEntity<UserDto> update(@PathVariable("id") Long id
+    public ResponseEntity update(@PathVariable("id") Long id
             , @RequestBody @Valid User user
             , BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -88,7 +86,7 @@ public class RestControler {
             throw new RuntimeException(errorMsg.toString());
         }
         userService.update(id, user);
-        return new ResponseEntity(convertToUserDto(user), HttpStatus.OK);
+        return new ResponseEntity<UserDto>(convertToUserDto(user), HttpStatus.OK);
     }
 
     @DeleteMapping("/admin/{id}")
