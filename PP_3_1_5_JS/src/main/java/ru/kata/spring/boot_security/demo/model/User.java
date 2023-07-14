@@ -3,6 +3,7 @@ package ru.kata.spring.boot_security.demo.model;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 
@@ -14,12 +15,14 @@ public class User {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull
     @Column(name = "name", unique = true)
     private String name;
     @Column(name = "password")
     private String password;
     @Column(name = "email")
     private String email;
+    @NotEmpty
     @Column(name = "sex")
     private String sex;
     @ManyToMany(cascade = CascadeType.MERGE)

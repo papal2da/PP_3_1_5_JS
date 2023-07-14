@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.util;
+package ru.kata.spring.boot_security.demo.exceptions_handlers;
 
 // Класс кастомного сообщения об ошибке.
 // Если человек не найден в базе данных, выбрасываем эксепшн.
