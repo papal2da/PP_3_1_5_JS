@@ -72,16 +72,16 @@ public class RestControler {
     public ResponseEntity<UserDto> update(@PathVariable("id") Long id
             , @RequestBody @Valid User user
             , BindingResult bindingResult) {
-//        if (bindingResult.hasErrors()) {
-//            StringBuilder errorMsg = new StringBuilder();
-//            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-//            for (FieldError fieldError: fieldErrors) {
-//                errorMsg.append(fieldError.getField())
-//                        .append("-")
-//                        .append(fieldError.getDefaultMessage());
-//            }
-//            throw new RuntimeException(errorMsg.toString());
-//        }
+        if (bindingResult.hasErrors()) {
+            StringBuilder errorMsg = new StringBuilder();
+            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+            for (FieldError fieldError: fieldErrors) {
+                errorMsg.append(fieldError.getField())
+                        .append("-")
+                        .append(fieldError.getDefaultMessage());
+            }
+            throw new RuntimeException(errorMsg.toString());
+        }
         userService.update(id, user);
         return new ResponseEntity<>(Converter.convertToUserDto(user), HttpStatus.OK);
     }

@@ -1,10 +1,7 @@
 package ru.kata.spring.boot_security.demo.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Collection;
 
 @Entity
@@ -15,11 +12,13 @@ public class User {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+    @NotBlank
     @Column(name = "name", unique = true)
     private String name;
+    @NotEmpty
     @Column(name = "password")
     private String password;
+    @NotBlank
     @Column(name = "email")
     private String email;
     @NotEmpty
